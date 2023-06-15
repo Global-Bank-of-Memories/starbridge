@@ -11,9 +11,11 @@ import {
   BRIDGE_CONTRACT_RAW_SCHEMA,
   TOKEN_CONTRACT_RAW_SCHEMA,
   CONTRACT_NAME_GBM_BRIDGE,
-  CONTRACT_ADDRESS_GBM_BRIDGE,
   CONTRACT_NAME_GBM_TOKEN,
-  CONTRACT_ADDRESS_GBM_TOKEN,
+  CONTRACT_ADDRESS_GBM_BRIDGE_INDEX,
+  CONTRACT_ADDRESS_GBM_BRIDGE_SUBINDEX,
+  CONTRACT_ADDRESS_GBM_TOKEN_INDEX,
+  CONTRACT_ADDRESS_GBM_TOKEN_SUBINDEX,
 } from './consts';
 
 @Injectable()
@@ -31,12 +33,15 @@ export class AppService {
     const rpcClient = new JsonRpcClient(gRPCProvider);
     const res = await rpcClient.invokeContract({
       method: `${CONTRACT_NAME_GBM_BRIDGE}.withdraw_hash`,
-      contract: CONTRACT_ADDRESS_GBM_BRIDGE,
+      contract: {
+        index: CONTRACT_ADDRESS_GBM_BRIDGE_INDEX,
+        subindex: CONTRACT_ADDRESS_GBM_BRIDGE_SUBINDEX,
+      },
       parameter: param,
     });
     if (!res || res.tag === 'failure' || !res.returnValue) {
       throw new Error(
-        `RPC call 'invokeContract' on method ${CONTRACT_NAME_GBM_BRIDGE}.withdraw_hash of contract ${CONTRACT_ADDRESS_GBM_BRIDGE} failed - ${res}`,
+        `RPC call 'invokeContract' on method ${CONTRACT_NAME_GBM_BRIDGE}.withdraw_hash of contract ${CONTRACT_ADDRESS_GBM_BRIDGE_INDEX} failed - ${res}`,
       );
     }
     const returnValues = deserializeReceiveReturnValue(
@@ -66,12 +71,15 @@ export class AppService {
     console.log(param.toString());
     const res = await rpcClient.invokeContract({
       method: `${CONTRACT_NAME_GBM_BRIDGE}.withdraw`,
-      contract: CONTRACT_ADDRESS_GBM_BRIDGE,
+      contract: {
+        index: CONTRACT_ADDRESS_GBM_BRIDGE_INDEX,
+        subindex: CONTRACT_ADDRESS_GBM_BRIDGE_SUBINDEX,
+      },
       parameter: param,
     });
     if (!res || res.tag === 'failure' || !res.returnValue) {
       throw new Error(
-        `RPC call 'invokeContract' on method ${CONTRACT_NAME_GBM_BRIDGE}.withdraw of contract ${CONTRACT_ADDRESS_GBM_BRIDGE} failed`,
+        `RPC call 'invokeContract' on method ${CONTRACT_NAME_GBM_BRIDGE}.withdraw of contract ${CONTRACT_ADDRESS_GBM_BRIDGE_INDEX} failed`,
       );
     }
     const returnValues = deserializeReceiveReturnValue(
@@ -100,12 +108,15 @@ export class AppService {
     const rpcClient = new JsonRpcClient(gRPCProvider);
     const res = await rpcClient.invokeContract({
       method: `${CONTRACT_NAME_GBM_BRIDGE}.deposit`,
-      contract: CONTRACT_ADDRESS_GBM_BRIDGE,
+      contract: {
+        index: CONTRACT_ADDRESS_GBM_BRIDGE_INDEX,
+        subindex: CONTRACT_ADDRESS_GBM_BRIDGE_SUBINDEX,
+      },
       parameter: param,
     });
     if (!res || res.tag === 'failure' || !res.returnValue) {
       throw new Error(
-        `RPC call 'invokeContract' on method ${CONTRACT_NAME_GBM_BRIDGE}.deposit of contract ${CONTRACT_ADDRESS_GBM_BRIDGE} failed`,
+        `RPC call 'invokeContract' on method ${CONTRACT_NAME_GBM_BRIDGE}.deposit of contract ${CONTRACT_ADDRESS_GBM_BRIDGE_INDEX} failed`,
       );
     }
     const returnValues = deserializeReceiveReturnValue(
@@ -201,12 +212,15 @@ export class AppService {
     const rpcClient = new JsonRpcClient(gRPCProvider);
     const res = await rpcClient.invokeContract({
       method: `${CONTRACT_NAME_GBM_TOKEN}.balanceOf`,
-      contract: CONTRACT_ADDRESS_GBM_TOKEN,
+      contract: {
+        index: CONTRACT_ADDRESS_GBM_TOKEN_INDEX,
+        subindex: CONTRACT_ADDRESS_GBM_TOKEN_SUBINDEX,
+      },
       parameter: param,
     });
     if (!res || res.tag === 'failure' || !res.returnValue) {
       throw new Error(
-        `RPC call 'invokeContract' on method ${CONTRACT_NAME_GBM_TOKEN}.balanceOf of contract ${CONTRACT_ADDRESS_GBM_TOKEN} failed`,
+        `RPC call 'invokeContract' on method ${CONTRACT_NAME_GBM_TOKEN}.balanceOf of contract ${CONTRACT_ADDRESS_GBM_TOKEN_INDEX} failed`,
       );
     }
     const returnValues = deserializeReceiveReturnValue(
