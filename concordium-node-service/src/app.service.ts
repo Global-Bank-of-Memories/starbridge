@@ -10,13 +10,17 @@ import { RequestDto, TransactionDto } from './serialize-params.dto';
 import {
   BRIDGE_CONTRACT_RAW_SCHEMA,
   TOKEN_CONTRACT_RAW_SCHEMA,
+  CONTRACT_NAME_GBM_BRIDGE,
+  CONTRACT_ADDRESS_GBM_BRIDGE,
+  CONTRACT_NAME_GBM_TOKEN,
+  CONTRACT_ADDRESS_GBM_TOKEN,
 } from './consts';
 
 @Injectable()
 export class AppService {
   async getWithdrawHash(request: RequestDto): Promise<string> {
     const param = serializeUpdateContractParameters(
-      'gbm_Bridge',
+      CONTRACT_NAME_GBM_BRIDGE,
       'withdraw_hash',
       request.parameters,
       Buffer.from(BRIDGE_CONTRACT_RAW_SCHEMA, 'base64') as any,
@@ -26,22 +30,19 @@ export class AppService {
     );
     const rpcClient = new JsonRpcClient(gRPCProvider);
     const res = await rpcClient.invokeContract({
-      method: 'gbm_Bridge.withdraw_hash',
-      contract: {
-        index: 2945n,
-        subindex: 0n,
-      },
+      method: `${CONTRACT_NAME_GBM_BRIDGE}.withdraw_hash`,
+      contract: CONTRACT_ADDRESS_GBM_BRIDGE,
       parameter: param,
     });
     if (!res || res.tag === 'failure' || !res.returnValue) {
       throw new Error(
-        `RPC call 'invokeContract' on method gbm_Bridge.withdraw_hash of contract 2945 failed - ${res}`,
+        `RPC call 'invokeContract' on method ${CONTRACT_NAME_GBM_BRIDGE}.withdraw_hash of contract ${CONTRACT_ADDRESS_GBM_BRIDGE} failed - ${res}`,
       );
     }
     const returnValues = deserializeReceiveReturnValue(
       Buffer.from(res.returnValue, 'hex') as any,
       Buffer.from(BRIDGE_CONTRACT_RAW_SCHEMA, 'base64') as any,
-      'gbm_Bridge',
+      CONTRACT_NAME_GBM_BRIDGE,
       'withdraw_hash',
       0,
     );
@@ -53,7 +54,7 @@ export class AppService {
 
   async withdraw(request: RequestDto): Promise<string> {
     const param = serializeUpdateContractParameters(
-      'gbm_Bridge',
+      CONTRACT_NAME_GBM_BRIDGE,
       'withdraw',
       request.parameters,
       Buffer.from(BRIDGE_CONTRACT_RAW_SCHEMA, 'base64') as any,
@@ -64,22 +65,19 @@ export class AppService {
     const rpcClient = new JsonRpcClient(gRPCProvider);
     console.log(param.toString());
     const res = await rpcClient.invokeContract({
-      method: 'gbm_Bridge.withdraw',
-      contract: {
-        index: 2945n,
-        subindex: 0n,
-      },
+      method: `${CONTRACT_NAME_GBM_BRIDGE}.withdraw`,
+      contract: CONTRACT_ADDRESS_GBM_BRIDGE,
       parameter: param,
     });
     if (!res || res.tag === 'failure' || !res.returnValue) {
       throw new Error(
-        `RPC call 'invokeContract' on method gbm_Bridge.withdraw of contract 2945 failed`,
+        `RPC call 'invokeContract' on method ${CONTRACT_NAME_GBM_BRIDGE}.withdraw of contract ${CONTRACT_ADDRESS_GBM_BRIDGE} failed`,
       );
     }
     const returnValues = deserializeReceiveReturnValue(
       Buffer.from(res.returnValue, 'hex') as any,
       Buffer.from(BRIDGE_CONTRACT_RAW_SCHEMA, 'base64') as any,
-      'gbm_Bridge',
+      CONTRACT_NAME_GBM_BRIDGE,
       'withdraw',
       0,
     );
@@ -91,7 +89,7 @@ export class AppService {
 
   async deposit(request: RequestDto): Promise<string> {
     const param = serializeUpdateContractParameters(
-      'gbm_Bridge',
+      CONTRACT_NAME_GBM_BRIDGE,
       'deposit',
       request.parameters,
       Buffer.from(BRIDGE_CONTRACT_RAW_SCHEMA, 'base64') as any,
@@ -101,22 +99,19 @@ export class AppService {
     );
     const rpcClient = new JsonRpcClient(gRPCProvider);
     const res = await rpcClient.invokeContract({
-      method: 'gbm_Bridge.deposit',
-      contract: {
-        index: 2945n,
-        subindex: 0n,
-      },
+      method: `${CONTRACT_NAME_GBM_BRIDGE}.deposit`,
+      contract: CONTRACT_ADDRESS_GBM_BRIDGE,
       parameter: param,
     });
     if (!res || res.tag === 'failure' || !res.returnValue) {
       throw new Error(
-        `RPC call 'invokeContract' on method gbm_Bridge.deposit of contract 2945 failed`,
+        `RPC call 'invokeContract' on method ${CONTRACT_NAME_GBM_BRIDGE}.deposit of contract ${CONTRACT_ADDRESS_GBM_BRIDGE} failed`,
       );
     }
     const returnValues = deserializeReceiveReturnValue(
       Buffer.from(res.returnValue, 'hex') as any,
       Buffer.from(BRIDGE_CONTRACT_RAW_SCHEMA, 'base64') as any,
-      'gbm_Bridge',
+      CONTRACT_NAME_GBM_BRIDGE,
       'deposit',
       0,
     );
@@ -168,7 +163,8 @@ export class AppService {
     try {
       const blockHash = Object.keys(res.outcomes)[0];
       const event = res.outcomes[blockHash].result['events'].find(
-        (result) => result.receiveName === 'gbm_Bridge.deposit',
+        (result) =>
+          result.receiveName === `${CONTRACT_NAME_GBM_BRIDGE}.deposit`,
       );
       const message = event.message;
       const from = event.instigator.address;
@@ -194,7 +190,7 @@ export class AppService {
 
   async getBalanceOf(request: RequestDto): Promise<string> {
     const param = serializeUpdateContractParameters(
-      'wGBM',
+      CONTRACT_NAME_GBM_TOKEN,
       'balanceOf',
       request.parameters,
       Buffer.from(TOKEN_CONTRACT_RAW_SCHEMA, 'base64') as any,
@@ -204,22 +200,19 @@ export class AppService {
     );
     const rpcClient = new JsonRpcClient(gRPCProvider);
     const res = await rpcClient.invokeContract({
-      method: 'wGBM.balanceOf',
-      contract: {
-        index: 2928n,
-        subindex: 0n,
-      },
+      method: `${CONTRACT_NAME_GBM_TOKEN}.balanceOf`,
+      contract: CONTRACT_ADDRESS_GBM_TOKEN,
       parameter: param,
     });
     if (!res || res.tag === 'failure' || !res.returnValue) {
       throw new Error(
-        `RPC call 'invokeContract' on method gbm_Bridge.balanceOf of contract 2945 failed`,
+        `RPC call 'invokeContract' on method ${CONTRACT_NAME_GBM_TOKEN}.balanceOf of contract ${CONTRACT_ADDRESS_GBM_TOKEN} failed`,
       );
     }
     const returnValues = deserializeReceiveReturnValue(
       Buffer.from(res.returnValue, 'hex') as any,
       Buffer.from(TOKEN_CONTRACT_RAW_SCHEMA, 'base64') as any,
-      'wGBM',
+      CONTRACT_NAME_GBM_TOKEN,
       'balanceOf',
       0,
     );
