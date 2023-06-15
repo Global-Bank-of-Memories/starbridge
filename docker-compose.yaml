@@ -26,7 +26,7 @@ services:
     container_name: starbridge-ccd-node-service-mainnet
     build:
       context: ./concordium-node-service
-      dockerfile: Dockerfile
+      dockerfile: mainnet.Dockerfile
     volumes:
       - './concordium-node-service:/app'
       - '/app/node_modules'
