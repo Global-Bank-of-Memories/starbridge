@@ -5,7 +5,7 @@ WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 
 COPY . /app
-COPY consts/mainnet.consts.ts /app/src/consts.ts
+RUN cp ./consts/mainnet.consts.ts ./src/consts.ts
 RUN npm ci
 
 CMD ["npm", "run", "start"]
