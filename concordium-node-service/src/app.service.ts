@@ -17,6 +17,7 @@ import {
   CONTRACT_ADDRESS_GBM_TOKEN_INDEX,
   CONTRACT_ADDRESS_GBM_TOKEN_SUBINDEX,
 } from './consts';
+import {WebSocketSubject} from "rxjs/webSocket";
 
 @Injectable()
 export class AppService {
@@ -200,6 +201,8 @@ export class AppService {
   }
 
   async getBalanceOf(request: RequestDto): Promise<string> {
+    console.log(request.parameters);
+    console.log(JSON.stringify(request.parameters));
     const param = serializeUpdateContractParameters(
       CONTRACT_NAME_GBM_TOKEN,
       'balanceOf',
@@ -218,7 +221,12 @@ export class AppService {
       },
       parameter: param,
     });
+    console.log(param);
+    console.log(JSON.stringify(param));
     if (!res || res.tag === 'failure' || !res.returnValue) {
+      if ('reason' in res) {
+        console.log(JSON.stringify(res.reason));
+      }
       throw new Error(
         `RPC call 'invokeContract' on method ${CONTRACT_NAME_GBM_TOKEN}.balanceOf of contract ${CONTRACT_ADDRESS_GBM_TOKEN_INDEX} failed`,
       );
