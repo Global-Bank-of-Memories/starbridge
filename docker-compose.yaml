@@ -1,25 +1,13 @@
 version: "3.9"
 services:
-  backend:
-    container_name: starbridge-backend
+  testnet-backend:
+    container_name: starbridge-backend-testnet
     build:
       context: .
       dockerfile: Dockerfile
     network_mode: host
-  frontend:
-    container_name: starbridge-frontend
-    build:
-      context: ./react-web
-      dockerfile: Dockerfile
-    volumes:
-      - './react-web:/app'
-      - '/app/node_modules'
-    ports:
-      - '3001:3000'
-    environment:
-      - NODE_ENV=development
-  ccd-node-service:
-    container_name: starbridge-ccd-node-service
+  testnet-ccd-node-service:
+    container_name: starbridge-ccd-node-service-testnet
     build:
       context: ./concordium-node-service
       dockerfile: Dockerfile
@@ -28,3 +16,19 @@ services:
       - '/app/node_modules'
     ports:
       - '8130:8130'
+  mainnet-backend:
+    container_name: starbridge-backend-mainnet
+    build:
+      context: .
+      dockerfile: mainnet.Dockerfile
+    network_mode: host
+  mainnet-ccd-node-service:
+    container_name: starbridge-ccd-node-service-mainnet
+    build:
+      context: ./concordium-node-service
+      dockerfile: Dockerfile
+    volumes:
+      - './concordium-node-service:/app'
+      - '/app/node_modules'
+    ports:
+      - '8131:8130'
