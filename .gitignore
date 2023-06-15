@@ -1,5 +1,5 @@
 .idea
-starbridge.cfg
+*starbridge.cfg
 *.DS_Store
 .DS_Store
 *dist
